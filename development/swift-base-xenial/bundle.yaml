@@ -1,0 +1,96 @@
+# vim: set ts=2 et:
+# deployer bundle for development ('next') charms
+openstack-services:
+  services:
+    swift-proxy:
+      charm: cs:~openstack-charmers-next/swift-proxy
+      constraints: mem=1G
+      options:
+        zone-assignment: manual
+        replicas: 3
+        swift-hash: fdfef9d4-8b06-11e2-8ac0-531c923c8fae
+        auth-type: swauth
+    swift-storage-z1:
+      charm: cs:~openstack-charmers-next/swift-storage
+      constraints: mem=1G
+      options:
+        zone: 1
+        block-device: vdb
+        overwrite: "true"
+    swift-storage-z2:
+      charm: cs:~openstack-charmers-next/swift-storage
+      constraints: mem=1G
+      options:
+        zone: 2
+        block-device: vdb
+        overwrite: "true"
+    swift-storage-z3:
+      charm: cs:~openstack-charmers-next/swift-storage
+      constraints: mem=1G
+      options:
+        zone: 3
+        block-device: vdb
+        overwrite: "true"
+  relations:
+    - [ swift-proxy, swift-storage-z1 ]
+    - [ swift-proxy, swift-storage-z2 ]
+    - [ swift-proxy, swift-storage-z3 ]
+# icehouse
+precise-icehouse:
+  inherits: openstack-services
+  series: precise
+  overrides:
+    openstack-origin: cloud:precise-icehouse
+    source: cloud:precise-icehouse
+trusty-icehouse:
+  inherits: openstack-services
+  series: trusty
+trusty-liberty:
+  inherits: openstack-services
+  series: trusty
+  overrides:
+    openstack-origin: cloud:trusty-liberty
+    source: cloud:trusty-liberty
+trusty-kilo:
+  inherits: openstack-services
+  series: trusty
+  overrides:
+    openstack-origin: cloud:trusty-kilo
+    source: cloud:trusty-kilo
+trusty-mitaka:
+  inherits: openstack-services
+  series: trusty
+  overrides:
+    openstack-origin: cloud:trusty-mitaka
+    source: cloud:trusty-mitaka
+xenial-mitaka:
+  inherits: openstack-services
+  series: xenial
+xenial-newton:
+  inherits: openstack-services
+  series: xenial
+  overrides:
+    openstack-origin: cloud:xenial-newton
+    source: cloud:xenial-newton
+yakkety-newton:
+  inherits: openstack-services
+  series: yakkety
+xenial-ocata:
+  inherits: openstack-services
+  series: xenial
+  overrides:
+    openstack-origin: cloud:xenial-ocata
+    source: cloud:xenial-ocata
+zesty-ocata:
+  inherits: openstack-services
+  series: zesty
+# pike
+xenial-pike:
+  inherits: openstack-services
+  series: xenial
+  overrides:
+    openstack-origin: cloud:xenial-pike
+    source: cloud:xenial-pike
+artful-pike:
+  inherits: openstack-services
+  series: artful
